@@ -1,0 +1,282 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Roboto Regular';
+    src: url('../fonts/roboto-regular.woff') format("woff"),
+        url('../fonts/roboto-regular.woff2') format("woff2");
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Roboto Medium';
+    src: url('../fonts/roboto-medium.woff') format("woff"),
+        url('../fonts/roboto-medium.woff2') format("woff2");
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Roboto Bold';
+    src: url('../fonts/roboto-bold.woff') format("woff"),
+        url('../fonts/roboto-bold.woff2') format("woff2");
+    font-display: swap;
+}
+
+@layer base{
+    /* START OF BASE */
+    :root{
+        /* --dark_bg: 241, 241, 241; */
+        --primary: 245 245 245;
+        --secondary: 242 242 242;
+        --accent: 80 221 144;
+        --content: 0 0 0;
+        --line: 212 212 212;
+        --alert: 220 38 38;
+        --cancel: 127 127 127;
+        --info: 67 130 208;
+        --warning: 177 130 47;
+    }
+    .dark{
+        /* --dark_bg: 15, 15, 15; */
+        --primary: 0 0 0;
+        --secondary: 22 22 22;
+        --accent: 80 221 144;
+        --content: 255 255 255;
+        --line: 14 14 14;
+        --alert: 220 38 38;
+        --cancel: 127 127 127;
+        --info: 67 130 208;
+        --warning: 177 130 47;
+    }
+
+    html, body{
+        @apply scroll-smooth;
+    }
+    body{
+        @apply overflow-x-hidden bg-primary text-content font-regular;
+    }
+    a{
+        @apply text-content
+    }
+    h1,h2,h3,h4,h5,h6{ @apply font-bold text-content font-thicker; }
+    h1{ @apply text-3xl mb-4; }
+    h2{ @apply text-xl mb-4; }
+    h3{ @apply text-lg mb-2; }
+    h4{ @apply text-base mb-4; }
+    h5{ @apply text-base mb-2; }
+    p{ @apply mb-2 !leading-6 opacity-60; }
+    ul{ @apply text-content; }
+    table{
+        @apply w-full text-xs;
+        th{
+            @apply font-bold py-4 px-2 text-left;
+        }
+        td{
+            @apply p-2 text-left;
+        }
+        tbody tr:nth-child(odd){
+            @apply bg-secondary bg-opacity-20;
+        }
+
+        tr{
+            @apply cursor-pointer;
+            td{
+                @apply select-none;
+            }
+        }
+    }
+    input, textarea, button{ @apply outline-none focus:outline-none; }
+    img, video, button{ @apply select-none; }
+
+    .tooltip{
+        @apply text-base relative after:hover:scale-100;
+    }
+    .tooltip:after{
+        @apply p-0.5 px-1.5 rounded-md
+        absolute content-[attr(data-tooltip)]
+        text-xs text-content top-[calc(100%+10px)] tx-a
+        bg-secondary/90 scale-0 transition-transform;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px rgb(16, 16, 16); 
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background:rgba(54, 54, 54, 0.864); 
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background:rgb(5, 103, 201); 
+    }
+        
+    /* END OF BASE */
+}
+
+@layer components{
+    /* START OF COMPONENTS */
+    .nav{
+        @apply space-y-4 mt-20;
+        .nav-link {
+            @apply p-1 pl-8;
+            a{
+                @apply p-2 flex gap-3 items-center
+            }
+        }
+        .nav-link.active{
+            @apply border-l border-accent;
+            a{
+                @apply text-accent;
+            }
+        }
+
+        .nav-link:hover a{
+            @apply text-accent;
+        }
+    }
+
+    .tab{
+        .tab-link{
+            @apply px-3 py-5 border-b border-transparent;
+        }
+        .tab-link.active{
+            @apply border-accent;
+            a{
+                @apply text-accent;
+            }
+        }
+    }
+    .table-action{
+        ul{
+            @apply flex gap-4;
+        }
+    }
+
+    .input-wrap{
+        @apply mb-3 relative;
+        label{
+            @apply mb-1 block text-xs;
+        }
+        input, select, textarea{
+            @apply block w-full p-1 rounded-md
+            border-2 text-stone-900
+            focus:border-info focus:bg-info/5 focus:text-info;
+        }
+        small.error-msg{
+            @apply absolute top-0 right-1 text-alert italic text-xs font-bold;
+        }
+    }
+    .form-action{
+        @apply flex gap-2 justify-end items-center;
+    }
+
+    /* START OF BUTTONS */
+    .btn{
+        @apply px-2 py-1
+        rounded-md
+        text-sm text-center
+        transition-colors
+        flex center gap-2
+        disabled:cursor-not-allowed disabled:opacity-60;
+    }
+    .btn--accent{
+        @apply bg-accent text-white;
+    }
+    .btn-form{
+        @apply p-2 w-1/2 flex center gap-2;
+    }
+    .btn--cancel{
+        @apply bg-cancel text-white;
+    }
+    .btn--alert{
+        @apply bg-alert text-white;
+    }
+    .btn--info{
+        @apply bg-info text-white;
+    }
+    .btn--warning{
+        @apply bg-warning text-white;
+    }
+    /* END OF BUTTONS */
+
+    .loading-bar{
+        @apply pointer-events-none cursor-default;
+    }
+    .loading-bar::after {
+        @apply content-[''] absolute top-0 left-0 w-[180%] h-full  bg-gradient-to-r from-transparent via-black/40 to-transparent  animate-loading;
+    }
+
+    /* END OF COMPONENTS */
+}
+
+@layer utilities{
+    /* START OF UTILITIES */
+    .f-col{ @apply flex flex-col; }
+    .f-col-center{ @apply flex flex-col items-center justify-center; }
+    .center {@apply items-center justify-center; }
+    .between-center {@apply justify-between items-center; }
+    .between-end {@apply justify-between items-end; }
+
+    .ft-el{ @apply font-extralight }
+    .ft-lt{ @apply font-light }
+    .ft-nm{ @apply font-normal }
+    .ft-md{ @apply font-medium }
+    .ft-sb{ @apply font-semibold }
+    .ft-b{ @apply font-bold }
+    .ft-ex{ @apply font-extrabold }
+
+    .mx-a{ @apply mx-auto }
+
+    .tx-a{ @apply left-1/2 -translate-x-1/2 }
+    .ty-a{ @apply top-1/2 -translate-y-1/2 }
+    .txy-a{ @apply top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 }
+
+    .scrollbar-gutter{
+        scrollbar-width: thin;
+        scrollbar-gutter: stable;
+    }
+    /* END OF UTILITIES */
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.spinner circle {
+  fill: none;
+  /* stroke: var(--light); */
+  stroke-width: 6;
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: dash 1s ease-in-out infinite;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 90, 200;
+    stroke-dashoffset: -35px;
+  }
+
+  100% {
+    stroke-dashoffset: -110px;
+  }
+}
