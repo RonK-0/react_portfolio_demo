@@ -25,6 +25,7 @@ dist-ssr
 
 # ignore img folder
 public/img/
+fonts/
 
 # ignore tailwind misc stuff
 tailwindcss-windows-x64.exe
