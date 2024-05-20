@@ -4,9 +4,10 @@ import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hook/useQueryData";
 import SpinnerFetching from "../../../../partials/spinners/SpinnerFetching";
 import ModalProject from "./ModalProject";
+import { devBaseImgUrl } from "../../../../helpers/functions-general";
 
 const Projects = () => {
-  const { dispatch, store } = React.useContext(StoreContext);
+  s
   const [info, setInfo] = React.useState(null);
 
   const {
@@ -16,7 +17,7 @@ const Projects = () => {
     data: portfolio,
   } = useQueryData(
     "/v1/portfolio", // endpoint
-    "get", // metho
+    "get", // method
     "portfolio"
   );
 
@@ -38,7 +39,7 @@ const Projects = () => {
                 {portfolio?.data.map((item, key) => (
                   <div className="project_card" key={key}>
                     <img
-                      src="https://via.placeholder.com/300"
+                      src={devBaseImgUrl + "/" + item.portfolio_photo}
                       alt=""
                       className="w-full h-[300px] object-cover"
                     />

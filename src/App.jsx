@@ -4,6 +4,10 @@ import NotFound from "./components/pages/NotFound";
 import Portfolio from "./components/pages/developer/dashboard/portfolio/Portfolio";
 import { StoreProvider } from "./store/StoreContext";
 import Home from "./components/pages/developer/ui/Home";
+import Login from "./components/pages/developer/access/Login";
+import ForgotPassword from "./components/pages/developer/access/ForgotPassword";
+import CreatePassword from "./components/pages/developer/access/CreatePassword";
+import Users from "./components/pages/developer/dashboard/users/User";
 
 function App() {
   const queryClient = new QueryClient();
@@ -14,8 +18,13 @@ function App() {
           <Router>
             <Routes>
               <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/users" element={<Users />} />
               {/* UI */}
               <Route path="/home" element={<Home />} />
+
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/create-password" element={<CreatePassword />} />
 
               {/* FOR NOT FOUND 404 PAGE */}
               <Route path="*" element={<NotFound/>}/>

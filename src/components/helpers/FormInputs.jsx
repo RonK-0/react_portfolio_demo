@@ -86,3 +86,21 @@ export const InputTextArea = ({
     </>
   );
 };
+
+export const InputFileUpload = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+  return (
+    <>
+      <label
+        htmlFor={props.id || props.name}
+        className={meta.touched && meta.error ? "custom error-msg" : "custom"}
+      >
+        {label}
+      </label>
+      <input {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <span className="error--msg">{meta.error}</span>
+      ) : null}
+    </>
+  );
+};

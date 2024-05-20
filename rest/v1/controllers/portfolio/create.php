@@ -7,7 +7,7 @@ if (array_key_exists("portfolioid", $_GET)) {
 }
 checkPayload($data);
 $portfolio->portfolio_title = checkIndex($data, "portfolio_title");
-$portfolio->portfolio_image = checkIndex($data, "portfolio_image");
+$portfolio->portfolio_photo = checkIndex($data, "portfolio_photo");
 $portfolio->portfolio_category = checkIndex($data, "portfolio_category");
 $portfolio->portfolio_description = checkIndex($data, "portfolio_description");
 $portfolio->portfolio_publish_date = checkIndex($data, "portfolio_publish_date");

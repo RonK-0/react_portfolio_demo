@@ -1,10 +1,11 @@
+import { FaUpload } from "react-icons/fa"; 
 import React from "react";
 import { LiaTimesSolid } from "react-icons/lia";
 import ModalWrapper from "../../../../partials/modals/ModalWrapper";
 import SpinnerButton from "../../../../partials/spinners/SpinnerButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryData } from "../../../../helpers/queryData";
-import { InputText, InputTextArea } from "../../../../helpers/FormInputs";
+import { InputText, InputTextArea, InputFileUpload } from "../../../../helpers/FormInputs";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { object, string, number } from "yup";
@@ -15,11 +16,19 @@ import {
   setMessage,
   setSuccess,
 } from "../../../../../store/StoreAction";
+import useUploadPhoto from "../../../../custom-hook/useUploadPhoto";
+import { devBaseImgUrl } from "../../../../helpers/functions-general";
 
 const ModalAddPortfolio = ({ itemEdit }) => {
   const { dispatch, store } = React.useContext(StoreContext);
   const handleClose = () => dispatch(setIsAdd(false));
   const queryClient = useQueryClient();
+
+  const { uploadPhoto, handleChangePhoto, photo } = useUploadPhoto(
+    `/v1/upload/photo`,
+    dispatch
+  );
+
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
@@ -34,27 +43,31 @@ const ModalAddPortfolio = ({ itemEdit }) => {
       if (data.success) {
         dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
-        dispatch(setMessage("Successfully "+[store.isEdit ? "updated." : "added."]));
+        dispatch(
+          setMessage("Successfully " + [store.isEdit ? "updated." : "added."])
+        );
       } else {
         dispatch(setError(true));
-        dispatch(setMessage(`Failed updating database.`));
+        // dispatch(setMessage(`Failed updating database.`));
+        dispatch(setMessage(data.error));
       }
     },
   });
-  console.log("");
+
+
 
   const initVal = {
     portfolio_title: itemEdit ? itemEdit.portfolio_title : "",
     portfolio_category: itemEdit ? itemEdit.portfolio_category : "",
-    portfolio_image: itemEdit ? itemEdit.portfolio_image : "",
+    portfolio_photo: itemEdit ? itemEdit.portfolio_photo : "",
     portfolio_description: itemEdit ? itemEdit.portfolio_description : "",
     portfolio_publish_date: itemEdit ? itemEdit.portfolio_publish_date : "",
   };
   const yupSchema = object({
     portfolio_title: string().required("Title Required*"),
     portfolio_category: string().required("Category Required*"),
+    // portfolio_photo: string().required("Image Required*"),
     portfolio_description: string().required("Description Required*"),
-    portfolio_image: string().required("Image Required*"),
     portfolio_publish_date: string().required("Publishing Date Required*"),
   });
 
@@ -72,11 +85,63 @@ const ModalAddPortfolio = ({ itemEdit }) => {
             initialValues={initVal}
             validationSchema={yupSchema}
             onSubmit={async (values) => {
-              mutation.mutate(values);
+              uploadPhoto()
+              mutation.mutate({...values, 
+                  portfolio_photo:
+                  (itemEdit && itemEdit.portfolio_photo === "") || photo
+                    ? photo === null
+                      ? itemEdit.portfolio_photo
+                      : photo.name
+                    : values.portfolio_photo,})
             }}
           >
             <Form action="" className="flex flex-col h-[calc(100vh-110px)]">
               <div className="grow overflow-y-scroll">
+
+                <div className="input-wrap">
+                  {photo || (itemEdit && itemEdit.portfolio_photo !== "") ? (
+                    <img
+                      src={
+                        photo
+                          ? URL.createObjectURL(photo) // preview
+                          : itemEdit.portfolio_photo // check db
+                          ? devBaseImgUrl + "/" + itemEdit.portfolio_photo
+                          : null
+                      }
+                      alt="Photo"
+                      className="rounded-tr-md rounded-tl-md h-[200px] max-h-[200px] w-full object-cover object-center m-auto"
+                    />
+                  ) : (
+                    <span className="min-h-20 flex items-center justify-center">
+                      <span className="text-accent mr-1">Drag & Drop</span>{" "}
+                      photo here or{" "}
+                      <span className="text-accent ml-1">Browse</span>
+                    </span>
+                  )}
+
+                  {(photo !== null ||
+                    (itemEdit && itemEdit.portfolio_photo !== "")) && (
+                    <span className="min-h-10 flex items-center justify-center">
+                      <span className="text-accent mr-1">Drag & Drop</span>{" "}
+                      photo here or{" "}
+                      <span className="text-accent ml-1">Browse</span>
+                    </span>
+                  )}
+
+                  {/* <FaUpload className="opacity-100 duration-200 group-hover:opacity-100 fill-dark/70 absolute top-0 right-0 bottom-0 left-0 min-w-[1.2rem] min-h-[1.2rem] max-w-[1.2rem] max-h-[1.2rem] m-auto cursor-pointer" /> */}
+                  <InputFileUpload
+                    label="Photo"
+                    name="photo"
+                    type="file"
+                    id="myFile"
+                    accept="image/*"
+                    title="Upload photo"
+                    onChange={(e) => handleChangePhoto(e)}
+                    onDrop={(e) => handleChangePhoto(e)}
+                    className="opacity-0 absolute right-0 bottom-0 left-0 m-auto cursor-pointer h-full "
+                  />
+                </div>
+
                 <div className="input-wrap">
                   <InputText label="Title" type="text" name="portfolio_title" />
                 </div>
@@ -87,9 +152,9 @@ const ModalAddPortfolio = ({ itemEdit }) => {
                     name="portfolio_category"
                   />
                 </div>
-                <div className="input-wrap">
+                {/* <div className="input-wrap">
                   <InputText label="Image" type="text" name="portfolio_image" />
-                </div>
+                </div> */}
                 <div className="input-wrap">
                   <InputTextArea
                     label="Description"

@@ -20,7 +20,7 @@ const ModalError = ({ position }) => {
           <div className="modal-body p-4 rounded-b-md bg-secondary text-content text-center">
             <BiErrorCircle className="text-4xl mx-a text-alert mb-3" />
             <h2 className="mb-2">Server Error</h2>
-            <p className="mb-5">{store.message}</p>
+            <p className="mb-5">{store.error}</p>
             <button className="btn btn--alert btn-form w-full" onClick={()=>dispatch(setError(false))}>Okay</button>
           </div>
         </div>

@@ -4,7 +4,7 @@ Class Portfolio {
     public $portfolio_aid;
     public $portfolio_title;
     public $portfolio_category;
-    public $portfolio_image;
+    public $portfolio_photo;
     public $portfolio_created;
     public $portfolio_is_active;
     public $portfolio_description;
@@ -27,7 +27,7 @@ Class Portfolio {
             $sql = "insert into {$this->tblPortfolio} (";
             $sql .= "portfolio_title, ";
             $sql .= "portfolio_category, ";
-            $sql .= "portfolio_image, ";
+            $sql .= "portfolio_photo, ";
             $sql .= "portfolio_description, ";
             $sql .= "portfolio_publish_date, ";
             $sql .= "portfolio_is_active, ";
@@ -36,7 +36,7 @@ Class Portfolio {
             $sql .= " ) values ( ";
             $sql .= ":portfolio_title, ";
             $sql .= ":portfolio_category, ";
-            $sql .= ":portfolio_image, ";
+            $sql .= ":portfolio_photo, ";
             $sql .= ":portfolio_description, ";
             $sql .= ":portfolio_publish_date, ";
             $sql .= ":portfolio_is_active, ";
@@ -47,7 +47,7 @@ Class Portfolio {
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "portfolio_title" => $this->portfolio_title,
-                "portfolio_image" => $this->portfolio_image,
+                "portfolio_photo" => $this->portfolio_photo,
                 "portfolio_category" => $this->portfolio_category,
                 "portfolio_description" => $this->portfolio_description,
                 "portfolio_publish_date" => $this->portfolio_publish_date,
@@ -98,7 +98,7 @@ Class Portfolio {
         try {
             $sql = "update {$this->tblPortfolio} set ";
             $sql .= "portfolio_title = :portfolio_title, ";
-            $sql .= "portfolio_image = :portfolio_image, ";
+            $sql .= "portfolio_photo = :portfolio_photo, ";
             $sql .= "portfolio_category = :portfolio_category, ";
             $sql .= "portfolio_description = :portfolio_description, ";
             $sql .= "portfolio_publish_date = :portfolio_publish_date, ";
@@ -107,7 +107,7 @@ Class Portfolio {
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "portfolio_title" => $this->portfolio_title,
-                "portfolio_image" => $this->portfolio_image,
+                "portfolio_photo" => $this->portfolio_photo,
                 "portfolio_category" => $this->portfolio_category,
                 "portfolio_description" => $this->portfolio_description,
                 "portfolio_publish_date" => $this->portfolio_publish_date,
