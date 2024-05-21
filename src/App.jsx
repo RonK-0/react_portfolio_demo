@@ -8,6 +8,7 @@ import Login from "./components/pages/developer/access/Login";
 import ForgotPassword from "./components/pages/developer/access/ForgotPassword";
 import CreatePassword from "./components/pages/developer/access/CreatePassword";
 import Users from "./components/pages/developer/dashboard/users/User";
+import ProtectedRoute from "./components/pages/developer/access/ProtectedRoute";
 
 function App() {
   const queryClient = new QueryClient();
@@ -17,8 +18,22 @@ function App() {
         <StoreProvider>
           <Router>
             <Routes>
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/users" element={<Users />} />
+              <Route
+                path="/portfolio"
+                element={
+                  <ProtectedRoute>
+                    <Portfolio />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/users"
+                element={
+                  <ProtectedRoute>
+                    <Users />
+                  </ProtectedRoute>
+                }
+              />
               {/* UI */}
               <Route path="/home" element={<Home />} />
 
@@ -27,13 +42,12 @@ function App() {
               <Route path="/create-password" element={<CreatePassword />} />
 
               {/* FOR NOT FOUND 404 PAGE */}
-              <Route path="*" element={<NotFound/>}/>
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Router>
         </StoreProvider>
       </QueryClientProvider>
-
     </>
-  )
+  );
 }
-export default App
+export default App;

@@ -89,3 +89,18 @@ export const setError = (val) => {
       payload: val,
     };
   };
+
+  export const setIsLogin = (val) => {
+    return {
+      type: "IS_LOGIN",
+      payload: val,
+    };
+  };
+  export const setCredentials = (data) => {
+    return {
+      type: "CREDENTIALS",
+      payload: {
+        data,
+      },
+    };
+  };

@@ -2,10 +2,10 @@ import React from "react";
 
 const Star = () => {
   return (
-    <div  className="animate-logo_spinno">
+    <div className="animate-bounce text-white fill-white">
       <svg
-        width="52px"
-        height="52px"
+        width="48px"
+        height="48px"
         viewBox="0 0 24 24"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"

@@ -21,6 +21,8 @@ RewriteRule ^user/active/([0-9]+)$ controllers/user/active.php?userid=$1 [L]
 RewriteRule ^user/search$ controllers/user/search.php [L]
 RewriteRule ^user/password$ controllers/user/set-password.php [L]
 RewriteRule ^user/reset$ controllers/user/reset-password.php [L]
+RewriteRule ^user/login$ controllers/user/login.php [L]
+RewriteRule ^user/token$ controllers/user/token.php [L]
 
 RewriteRule ^upload.photo$ core/upload-photo.php [L]
 

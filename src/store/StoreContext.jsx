@@ -14,6 +14,8 @@ const initVal = {
   isDelete: false,
   isAdd: false,
   isEdit: false,
+  isLogin: false,
+  credentials: {},
 };
 
 const StoreContext = React.createContext();
